@@ -10,7 +10,7 @@ const SCOPES = ['https://www.googleapis.com/auth/drive',
     'https://www.googleapis.com/auth/userinfo.profile'
 ];
 
-export default auth = (req, res) => {
+export default function(req, res) {
     const authUrl = oAuth2Client.generateAuthUrl({
         access_type: 'offline',
         scope: SCOPES

@@ -1,8 +1,8 @@
 import {OAuth2Client} from 'google-auth-library'; 
 
-const CLIENT_ID = '747178828000-rd118ek1tcsuuk0tfa84np1f0thtb2he.apps.googleusercontent.com';
-const CLIENT_SECRET = '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';
-const REDIRECT_URI = 'http://localhost:3000/auth/callback';
+const CLIENT_ID = process.env.CLIENT_ID;
+const CLIENT_SECRET = process.env.CLIENT_SECRET;
+const REDIRECT_URI = process.env.REDIRECT_URI;
 
 const oAuth2Client = new OAuth2Client(CLIENT_ID, CLIENT_SECRET, REDIRECT_URI);
 

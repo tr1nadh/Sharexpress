@@ -1,6 +1,3 @@
-import { error } from "console";
-import { response } from "express";
-
 async function getLoginUrl() {
     return fetch('api/auth/login')
     .then(response => {

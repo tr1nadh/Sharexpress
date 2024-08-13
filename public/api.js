@@ -1,4 +1,4 @@
-async function getLoginUrl() {
+export async function getLoginUrl() {
     return fetch('api/auth/login')
     .then(response => {
         if (!response.ok) {

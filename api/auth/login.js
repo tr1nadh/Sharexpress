@@ -15,5 +15,5 @@ export const auth = (req, res) => {
         access_type: 'offline',
         scope: SCOPES
     })
-    res.send(authUrl);
+    res.send({url: authUrl});
 };

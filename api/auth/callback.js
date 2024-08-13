@@ -6,10 +6,6 @@ const REDIRECT_URI = 'http://localhost:3000/auth/callback';
 
 const oAuth2Client = new OAuth2Client(CLIENT_ID, CLIENT_SECRET, REDIRECT_URI);
 
-const SCOPES = ['https://www.googleapis.com/auth/drive',
-    'https://www.googleapis.com/auth/userinfo.profile'
-];
-
 export const callback = async (req, res) => {
     const code = req.query.code;
     try {

@@ -1,5 +1,5 @@
 import * as api from './api.js';
 
-document.getElementById('login-btn').addEventListener(async event => {
+document.getElementById('login-btn').addEventListener('click', async () => {
     window.location.href = await api.getLoginUrl().authUrl;
 })

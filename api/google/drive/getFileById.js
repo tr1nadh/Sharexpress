@@ -7,7 +7,7 @@ export default async function getFileById(req, res) {
     const { fileId } = req.query;
     const cred = getCredFromCookies(req);
     if (!cred.refresh_token) {
-        res.redirect('/action/login');
+        res.redirect(process.env.DOMAIN + '/action/login');
         return;
     }
 

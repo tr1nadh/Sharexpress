@@ -5,7 +5,7 @@ import cookie from 'cookie';
 export default async function getTwoColumns(req, res) {
     const cred = getCredFromCookies(req);
     if (!cred.refresh_token) {
-        res.redirect(process.env.DOMAIN + '/action/login');
+        res.redirect('/action/login');
         return;
     }
     oAuth2Client.setCredentials(cred);

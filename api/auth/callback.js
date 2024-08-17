@@ -1,19 +1,13 @@
-import {OAuth2Client} from 'google-auth-library'; 
+import {oAuth2Client} from '../../utils/g-oAuth-client';
+import {createOrUpdateUser} from '../../utils/user-cookie-manager';
 
-const CLIENT_ID = process.env.CLIENT_ID;
-const CLIENT_SECRET = process.env.CLIENT_SECRET;
-const REDIRECT_URI = process.env.REDIRECT_URI;
-
-const oAuth2Client = new OAuth2Client(CLIENT_ID, CLIENT_SECRET, REDIRECT_URI);
-
-export const callback = async (req, res) => {
+export default async function(req, res) {
     const code = req.query.code;
     try {
         const { tokens } = await oAuth2Client.getToken(code);
-        oAuth2Client.setCredentials(tokens);
-        res.send('true');
+        createOrUpdateUser(res, tokens);
+        res.redirect('/files');
     } catch (error) {
-        console.error(error);
-        res.send('false');
+        res.status(500).json({error: 'Internal server error'});
     }
 };

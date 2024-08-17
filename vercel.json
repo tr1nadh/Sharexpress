@@ -1,0 +1,13 @@
+{
+    "rewrites": [
+      {
+        "source": "/action/login",
+        "destination": "/api/actions/login.js"
+      },
+      {
+        "source": "/files",
+        "destination": "files.html"
+      }
+    ]
+  }
+  

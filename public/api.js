@@ -1,5 +1,5 @@
 export async function getLoginUrl() {
-    return fetch('api/auth/login')
+    return fetch('api/auth/url')
     .then(response => {
         if (!response.ok) {
             console.log('Cannot login some response error');

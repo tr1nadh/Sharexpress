@@ -1,5 +1,6 @@
 import {google} from 'googleapis';
 import {oAuth2Client} from '../../../utils/g-oAuth-client';
+import {createOrUpdateUser} from '../../../utils/user-cookie-manager';
 import cookie from 'cookie';
 
 export default async function getTwoColumns(req, res) {
@@ -14,6 +15,7 @@ export default async function getTwoColumns(req, res) {
     const spreadsheetId = process.env.LINKS_SHEET_ID;
     const range = 'Form_responses!B:C'; // Fetch columns A and B from the sheet
   
+    const valuesData = {};
     try {
       const response = await sheets.spreadsheets.values.get({
         spreadsheetId,
@@ -21,14 +23,12 @@ export default async function getTwoColumns(req, res) {
       });
       const rows = response.data.values;
       if (rows.length) {
-        const valuesData = {};
         rows.forEach(row => {
           const name = row[0];
           const links = row[1];
           // console.log(`Column B: ${name}, Column C: ${links}`);
           valuesData[name] = links;
         });
-        res.send(valuesData);
       } else {
         console.log('No data found.');
       }
@@ -36,6 +36,11 @@ export default async function getTwoColumns(req, res) {
       console.error('The API returned an error:', error);
     }
 
+    if (!cred.access_token) {
+      const tokens = oAuth2Client.credentials;
+      createOrUpdateUser(res, tokens);
+    }
+    res.send(valuesData);
   }
 
   function getCredFromCookies(req) {

@@ -1,4 +1,12 @@
+import * as api from './api.js';
 
+$('#logout-btn').on('click', async function() {
+    const revokeConfirm = confirm("Are your sure you want to logout?");
+    if (revokeConfirm) {
+        const redirect = await api.revokeUser();
+        window.location.href = redirect.url;
+    }
+});
 
 $(async function() {
     const data = await fetch('/api/google/sheet/getAlllinks')

@@ -1,5 +1,9 @@
 {
-    "rewrites": [
+  "rewrites": [
+      {
+        "source": "/",
+        "destination": "/api/actions/index.js "
+      },
       {
         "source": "/action/login",
         "destination": "/api/actions/login.js"
@@ -7,6 +11,10 @@
       {
         "source": "/files",
         "destination": "files.html"
+      },
+      {
+        "source": "/signup",
+        "destination": "login.html"
       }
     ]
   }

@@ -1,7 +1,6 @@
 import {google} from 'googleapis';
 import {oAuth2Client} from '../../../utils/g-oAuth-client';
-import {createOrUpdateUser} from '../../../utils/user-cookie-manager';
-import cookie from 'cookie';
+import {createOrUpdateUser, getCredFromCookies} from '../../../utils/user-cookie-manager';
 
 export default async function getTwoColumns(req, res) {
     const cred = getCredFromCookies(req);
@@ -42,13 +41,3 @@ export default async function getTwoColumns(req, res) {
     }
     res.send(valuesData);
   }
-
-  function getCredFromCookies(req) {
-    const parsedCookies = cookie.parse(req.headers.cookie || '');
-    return {
-        access_token: parsedCookies.access_token,
-        refresh_token: parsedCookies.refresh_token,
-        token_type: 'Bearer',
-        expiry_date: parsedCookies.expiry_date
-    }
-}

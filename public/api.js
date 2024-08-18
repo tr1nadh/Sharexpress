@@ -9,3 +9,15 @@ export async function getLoginUrl() {
         console.log('Error: ', error);
     });
 }
+
+export async function revokeUser() {
+    return fetch('api/auth/revoke')
+    .then(response => {
+        if (!response.ok) {
+            console.log('Cannot revoke user');
+        }
+        return response.json();
+    }).catch(error => {
+        console.log('Error: ', error);
+    });
+}

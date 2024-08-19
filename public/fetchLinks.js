@@ -1,5 +1,10 @@
 import * as api from './api.js';
 
+$('#show-qr').on('click', async function() {
+    const qr = await api.getQR();
+    $('#rcv-qr-img').attr('src', qr.qrUrl);
+});
+
 $('#logout-btn').on('click', async function() {
     const revokeConfirm = confirm("Are your sure you want to logout?");
     if (revokeConfirm) {

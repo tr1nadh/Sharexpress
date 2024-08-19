@@ -16,7 +16,7 @@
             <div class="container-fluid d-flex flex-row">
                 <h2>Cloud copy</h2>
               <div class="d-flex gap-2">
-                <button class="btn btn-outline-success" data-bs-toggle="modal" data-bs-target="#qrModal"><i class="fa-solid fa-qrcode"></i> Show receving QR</button>
+                <button id="show-qr" class="btn btn-outline-success" data-bs-toggle="modal" data-bs-target="#qrModal"><i class="fa-solid fa-qrcode"></i> Show receving QR</button>
                 <button id="logout-btn" class="btn btn-danger"> Log out</button>
               </div>
             </div>
@@ -41,15 +41,7 @@
           <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
         </div>
         <div class="modal-body">
-            <div class="container">
-                <div style="position: relative; width: 100%; height: 0; padding-top: 177.7778%;
-                padding-bottom: 0; box-shadow: 0 2px 8px 0 rgba(63,69,81,0.16); margin-top: 1.6em; margin-bottom: 0.9em; overflow: hidden;
-                border-radius: 8px; will-change: transform;">
-                <iframe loading="lazy" style="position: absolute; width: 100%; height: 100%; top: 0; left: 0; border: none; padding: 0;margin: 0;"
-                    src="https:&#x2F;&#x2F;www.canva.com&#x2F;design&#x2F;DAGOGEnbFM0&#x2F;lGYAfUN3zRJELcU1ytbAnw&#x2F;view?embed" allowfullscreen="allowfullscreen" allow="fullscreen">
-                </iframe>
-                </div>
-            </div>
+            <img id="rcv-qr-img" src="" alt="Qr code">
         </div>
       </div>
     </div>

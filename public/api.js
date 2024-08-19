@@ -1,3 +1,16 @@
+
+export async function getQR() {
+    return fetch('api/generateQR')
+    .then(response => {
+        if (!response.ok) {
+            console.log('some error when generating qr');
+        }
+        return response.json();
+    }).catch(error => {
+        console.log('Error: ', error);
+    });
+}
+
 export async function getLoginUrl() {
     return fetch('api/auth/url')
     .then(response => {

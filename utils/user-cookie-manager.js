@@ -1,23 +1,23 @@
-import {get30DaysExpireTime, getCookieExpireTime} from './date-and-time-utils';
+import {getCookieExpireTime} from './date-and-time-utils';
 import cookie from 'cookie';
 
 export function createOrUpdateUser(res, tokens) {
-    const cookieExpireTime = getCookieExpireTime(tokens.expiry_date);
-    const th30DaysExpireTime = get30DaysExpireTime();
-    const env = process.env.NODE_ENV
-    res.setHeader('Set-Cookie', [
-        `access_token=${tokens.access_token}; HttpOnly; ${env === 'prod'}; SameSite=Strict; Path=/; Max-Age=${cookieExpireTime}`,
-        `refresh_token=${tokens.refresh_token}; HttpOnly; ${env === 'prod'}; SameSite=Strict; Path=/; Max-Age=${th30DaysExpireTime}`,
-        `expiry_date=${tokens.expiry_date}; HttpOnly; ${env === 'prod'}; SameSite=Strict; Path=/; Max-Age=${th30DaysExpireTime}`,
-      ]);
+  const cookieExpireTime = getCookieExpireTime(tokens.expiry_date);
+  const maxAge_30Days = 30 * 24 * 60 * 60 * 1000;
+  const isSecure = process.env.NODE_ENV === 'prod' ? 'Secure;' : '';
+  res.setHeader('Set-Cookie', [
+    `access_token=${tokens.access_token}; HttpOnly; ${isSecure}; SameSite=Strict; Path=/; Max-Age=${cookieExpireTime}`,
+    `refresh_token=${tokens.refresh_token}; HttpOnly; ${isSecure}; SameSite=Strict; Path=/; Max-Age=${maxAge_30Days}`,
+    `expiry_date=${tokens.expiry_date}; HttpOnly; ${isSecure}; SameSite=Strict; Path=/; Max-Age=${maxAge_30Days}`,
+  ]);
 }
 
 export function clearCredCookies(res) {
-  const env = process.env.NODE_ENV;
+  const isSecure = process.env.NODE_ENV === 'prod' ? 'Secure;' : '';
   res.setHeader('Set-Cookie', [
-      `access_token=0; HttpOnly; ${env === 'prod'}; SameSite=Strict; Path=/; Max-Age=0`,
-      `refresh_token=0; HttpOnly; ${env === 'prod'}; SameSite=Strict; Path=/; Max-Age=0`,
-      `expiry_date=0; HttpOnly; ${env === 'prod'}; SameSite=Strict; Path=/; Max-Age=0`,
+      `access_token=0; HttpOnly; ${isSecure}; SameSite=Strict; Path=/; Max-Age=0`,
+      `refresh_token=0; HttpOnly; ${isSecure}; SameSite=Strict; Path=/; Max-Age=0`,
+      `expiry_date=0; HttpOnly; ${isSecure}; SameSite=Strict; Path=/; Max-Age=0`,
     ]);
 }
 

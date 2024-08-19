@@ -28,7 +28,7 @@ export default async function getFileById(req, res) {
 
     if (!cred.access_token) {
         const tokens = oAuth2Client.credentials;
-        createOrUpdateUser(res, tokens);
+        createOrUpdateUser(cred.id, res, tokens);
     }
 }
 

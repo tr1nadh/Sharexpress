@@ -1,6 +1,7 @@
 import {google} from 'googleapis';
 import {oAuth2Client} from '../../../utils/g-oAuth-client';
 import {createOrUpdateUser, getCredFromCookies} from '../../../utils/user-cookie-manager';
+import { kv } from '@vercel/kv';
 
 export default async function getTwoColumns(req, res) {
     const cred = getCredFromCookies(req);
@@ -11,7 +12,7 @@ export default async function getTwoColumns(req, res) {
     oAuth2Client.setCredentials(cred);
 
     const sheets = google.sheets({ version: 'v4', auth: oAuth2Client });
-    const spreadsheetId = process.env.LINKS_SHEET_ID;
+    const spreadsheetId = await kv.get(`user:${cred.id}:ds`);
     const range = 'Form_responses!B:C'; // Fetch columns A and B from the sheet
   
     const valuesData = {};
@@ -37,7 +38,7 @@ export default async function getTwoColumns(req, res) {
 
     if (!cred.access_token) {
       const tokens = oAuth2Client.credentials;
-      createOrUpdateUser(res, tokens);
+      createOrUpdateUser(cred.id, res, tokens);
     }
     res.send(valuesData);
   }

@@ -6,10 +6,9 @@ export default async function(req, res) {
     try {
         await oAuth2Client.revokeToken(cred.refresh_token);
         console.log('Token revoked successfully');
+        clearCredCookies(res);
+        res.send({url: process.env.DOMAIN});
     } catch (error) {
         console.error('Error revoking token:', error);
     }
-
-    clearCredCookies(res);
-    res.send({url: process.env.DOMAIN});
 }

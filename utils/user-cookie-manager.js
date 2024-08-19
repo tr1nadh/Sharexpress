@@ -3,7 +3,7 @@ import cookie from 'cookie';
 
 export function createOrUpdateUser(res, tokens) {
   const cookieExpireTime = getCookieExpireTime(tokens.expiry_date);
-  const maxAge_30Days = 30 * 24 * 60 * 60 * 1000;
+  const maxAge_30Days = (30 * 24 * 60 * 60 * 1000);
   const isSecure = process.env.NODE_ENV === 'prod' ? 'Secure;' : '';
   res.setHeader('Set-Cookie', [
     `access_token=${tokens.access_token}; HttpOnly; ${isSecure}; SameSite=Strict; Path=/; Max-Age=${cookieExpireTime}`,

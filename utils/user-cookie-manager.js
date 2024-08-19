@@ -4,18 +4,20 @@ import cookie from 'cookie';
 export function createOrUpdateUser(res, tokens) {
     const cookieExpireTime = getCookieExpireTime(tokens.expiry_date);
     const th30DaysExpireTime = get30DaysExpireTime();
+    const env = process.env.NODE_ENV
     res.setHeader('Set-Cookie', [
-        `access_token=${tokens.access_token}; HttpOnly; false; SameSite=Strict; Path=/; Max-Age=${cookieExpireTime}`,
-        `refresh_token=${tokens.refresh_token}; HttpOnly; false; SameSite=Strict; Path=/; Max-Age=${th30DaysExpireTime}`,
-        `expiry_date=${tokens.expiry_date}; HttpOnly; false; SameSite=Strict; Path=/; Max-Age=${th30DaysExpireTime}`,
+        `access_token=${tokens.access_token}; HttpOnly; ${env === 'prod'}; SameSite=Strict; Path=/; Max-Age=${cookieExpireTime}`,
+        `refresh_token=${tokens.refresh_token}; HttpOnly; ${env === 'prod'}; SameSite=Strict; Path=/; Max-Age=${th30DaysExpireTime}`,
+        `expiry_date=${tokens.expiry_date}; HttpOnly; ${env === 'prod'}; SameSite=Strict; Path=/; Max-Age=${th30DaysExpireTime}`,
       ]);
 }
 
 export function clearCredCookies(res) {
+  const env = process.env.NODE_ENV;
   res.setHeader('Set-Cookie', [
-      `access_token=0; HttpOnly; false; SameSite=Strict; Path=/; Max-Age=0`,
-      `refresh_token=0; HttpOnly; false; SameSite=Strict; Path=/; Max-Age=0`,
-      `expiry_date=0; HttpOnly; false; SameSite=Strict; Path=/; Max-Age=0`,
+      `access_token=0; HttpOnly; ${env === 'prod'}; SameSite=Strict; Path=/; Max-Age=0`,
+      `refresh_token=0; HttpOnly; ${env === 'prod'}; SameSite=Strict; Path=/; Max-Age=0`,
+      `expiry_date=0; HttpOnly; ${env === 'prod'}; SameSite=Strict; Path=/; Max-Age=0`,
     ]);
 }
 

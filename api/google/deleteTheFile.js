@@ -12,7 +12,7 @@ export default async function(req, res) {
     }
 
     // index + 1 = sheet row (0 + 1 = sheet row 1)
-    const sheetRow = Number(id) + 1;
+    const sheetRow = Number(id) + 2;
     console.log('Sheet row', sheetRow);
     const sheet = await getTheRow(cred, sheetRow);
     const links = sheet[2].split(',');

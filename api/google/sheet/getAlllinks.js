@@ -23,7 +23,8 @@ export default async function getTwoColumns(req, res) {
       });
       const rows = response.data.values;
       if (rows.length) {
-        rows.forEach(row => {
+        rows.forEach((row, index) => {
+          if (index === 0) return;
           const name = row[0];
           const links = row[1];
           // console.log(`Column B: ${name}, Column C: ${links}`);

@@ -1,4 +1,15 @@
 
+export async function deleteFile(fileId) {
+    fetch('api/google/deleteTheFile?id=' + fileId)
+    .then(response => {
+        if (!response.ok) {
+            console.log('Some error when deleting the file');
+        }
+    }).catch(error => {
+        console.log('Error: ', error);
+    });
+}
+
 export async function getQR() {
     return fetch('api/generateQR')
     .then(response => {

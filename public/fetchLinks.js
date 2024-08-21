@@ -1,5 +1,21 @@
 import * as api from './api.js';
 
+$('#refresh').on('click', async function() {
+    $('#ref-txt').html('Refreshing....');
+    await loadItems();
+    $('#ref-txt').html('Refresh');
+})
+
+$(document).on('click', '.delete-btn', async function() {
+    const deleteConfirm = confirm("Are your sure you want to delete?");
+    if (deleteConfirm) {
+        const id = $(this).data('target-id');
+        await api.deleteFile(id);
+        $(`#${id}-item`).fadeOut(300, 
+            () => $(this).remove());
+    }
+});
+
 $('#show-qr').on('click', async function() {
     const qr = await api.getQR();
     $('#rcv-qr-img').attr('src', qr.qrUrl);
@@ -13,34 +29,37 @@ $('#logout-btn').on('click', async function() {
     }
 });
 
-$(async function() {
+$(loadItems());
+async function loadItems() {
     const data = await fetch('/api/google/sheet/getAlllinks')
     .then(response => {return response.json()});
 
-    Object.keys(data).forEach(key => {
+    $('#file-container').html('');
+    Object.keys(data).forEach((key, index) => {
         const link = data[key];
-        let id = extractId(link);
 
-        const newItem = $(getAccordionHtmlData(id, key));
+        const newItem = $(getAccordionHtmlData(index, key));
         $('#file-container').prepend(newItem);
         newItem.hide().fadeIn(1000);
 
         const csvLinks = link.split(',');
         if (csvLinks.length !==0) {
-            csvLinks.forEach((csvLink, index) => {
-                $(`#${id}-body`).prepend($(getAccordionLink(id, csvLink, 'File-' + index)));
+            csvLinks.forEach((link) => {
+                const linkId = extractId(link);
+                $(`#${index}-body`).prepend($(getAccordionLink(linkId)));
              });
         } else {
-            $(`#${id}-body`).prepend($(getAccordionLink(id, link, 'File-1')));
+            const linkId = extractId(link);
+            $(`#${index}-body`).prepend($(getAccordionLink(linkId)));
         }
-        
     })
 
-});
+}
 
 function getAccordionHtmlData(id, name) {
     return `
-        <div class="mb-2 rounded">
+    <div id='${id}-item' class="row">
+        <div class="mb-2 rounded col-sm-11">
             <div class="accordion-item">
                 <h2 class="accordion-header">
                     <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#${id}-collapse">
@@ -54,10 +73,15 @@ function getAccordionHtmlData(id, name) {
                 </div>
             </div>
         </div>
+        <div class="col-sm-1">
+            <button class="delete-btn btn btn-danger" data-target-id='${id}'>
+            <i class="fa-solid fa-trash"></i></button>
+        </div>
+    </div>
     `
 }
 
-function getAccordionLink(id, link, linkName) {
+function getAccordionLink(id) {
     return `
         <div class='d-flex flex-column gap-2'>
             <iframe loading="lazy" src="https://drive.google.com/file/d/${id}/preview" 
